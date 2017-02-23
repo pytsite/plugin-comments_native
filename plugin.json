@@ -1,0 +1,19 @@
+{
+  "description": {
+    "en": "Native comments",
+    "ru": "Native comments",
+    "uk": "Native comments"
+  },
+  "url": "https://github.com/pytsite/plugin-comments_native",
+  "author": {
+    "name": "Alexander Shepetko",
+    "email": "a@shepetko.com",
+    "url": "https://shepetko.com"
+  },
+  "requires": {
+    "packages": [],
+    "plugins": [
+      "comments"
+    ]
+  }
+}
