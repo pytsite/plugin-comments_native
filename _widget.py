@@ -23,6 +23,7 @@ class Comments(_pytsite_widget.Abstract):
             raise RuntimeError("Widget '{}': thread_id is not specified.".format(self.name))
 
         self._css = 'comments-native'
+        self._js_module = 'comments-native-widget'
         self._data['comments_load_ep'] = 'comments'
         self._data['comment_submit_ep'] = 'comments/comment'
         self._data['comment_report_ep'] = 'comments/report'
@@ -30,11 +31,6 @@ class Comments(_pytsite_widget.Abstract):
         self._data['thread_id'] = self._thread_id
         self._data['max_depth'] = _comments.get_comment_max_depth()
         self._data['create_permission'] = _comments.get_permissions(driver_name='pytsite')['create']
-
-        self._assets.extend([
-            'comments_native@css/widget.css',
-            'comments_native@js/widget.js',
-        ])
 
     @property
     def comment_submit_ep(self) -> str:

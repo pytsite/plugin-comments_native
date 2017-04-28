@@ -14,7 +14,11 @@ def _init():
     # Resources
     lang.register_package(__name__, alias='comments_native')
     tpl.register_package(__name__, alias='comments_native')
+
     assetman.register_package(__name__, alias='comments_native')
+    assetman.t_less(__name__ + '@css/**', 'css')
+    assetman.t_js(__name__ + '@js/**', 'js')
+    assetman.js_module('comments-native-widget', __name__ + '@js/comments-native-widget')
 
     # Register ODM model
     odm.register_model('comment', _model.Comment)
