@@ -38,7 +38,7 @@ class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
         return 'comments'
 
     @classmethod
-    def odm_auth_permissions(cls) -> _Tuple[str]:
+    def odm_auth_permissions(cls) -> _Tuple[str, ...]:
         return 'create', 'modify', 'delete', 'modify_own', 'delete_own'
 
     @property
@@ -84,6 +84,6 @@ class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
     @property
     def permissions(self) -> dict:
         return {
-            'modify': self.odm_auth_check_permission('modify') or self.odm_auth_check_permission('modify_own'),
-            'delete': self.odm_auth_check_permission('delete') or self.odm_auth_check_permission('delete_own'),
+            'modify': self.odm_auth_check_permission('modify'),
+            'delete': self.odm_auth_check_permission('delete'),
         }

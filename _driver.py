@@ -31,7 +31,7 @@ class Native(_comments.driver.Abstract):
         """
         body = body.strip()
 
-        comment = _odm.dispense('comment')
+        comment = _odm.dispense('comment')  # type: _model.Comment
         comment.f_set('thread_uid', thread_uid)
         comment.f_set('body', body)
         comment.f_set('author', author.uid)
@@ -98,5 +98,5 @@ class Native(_comments.driver.Abstract):
         """Get permissions definition for user.
         """
         return {
-            'create': _odm_auth.check_permission('create', 'comment', user)
+            'create': _odm_auth.check_permission('create', 'comment', user=user)
         }

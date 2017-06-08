@@ -16,8 +16,8 @@ def _init():
     tpl.register_package(__name__, alias='comments_native')
 
     assetman.register_package(__name__, alias='comments_native')
-    assetman.t_less(__name__ + '@css/**', 'css')
-    assetman.t_js(__name__ + '@js/**', 'js')
+    assetman.t_less(__name__ + '@**')
+    assetman.t_js(__name__ + '@**')
     assetman.js_module('comments-native-widget', __name__ + '@js/comments-native-widget')
 
     # Register ODM model
