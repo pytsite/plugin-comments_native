@@ -1,4 +1,6 @@
 {
+  "name": "plugins.comments_native",
+  "version": "0.2.2",
   "description": {
     "en": "Native comments",
     "ru": "Native comments",
