@@ -43,10 +43,9 @@ class Native(_comments.driver.Abstract):
             if parent.depth == _comments.get_comment_max_depth():
                 raise RuntimeError('Comment depth is too big')
 
-            with parent:
-                _auth.switch_user_to_system()
-                parent.append_child(comment).save()
-                _auth.restore_user()
+            _auth.switch_user_to_system()
+            parent.append_child(comment).save()
+            _auth.restore_user()
 
         return comment
 
@@ -84,15 +83,17 @@ class Native(_comments.driver.Abstract):
         if not comment:
             raise _comments.error.CommentNotExist("Comment '{}' does not exist.".format(uid))
 
-        with comment:
-            comment.f_set('status', 'deleted').save()
+        comment.f_set('status', 'deleted').save()
 
     def delete_thread(self, thread_uid: str):
         """Physically remove comments for particular thread.
         """
         for comment in self.get_comments(thread_uid):
-            with comment:
+            try:
                 comment.delete()
+            except _odm.error.EntityDeleted:
+                # Entity was deleted by another instance
+                pass
 
     def get_permissions(self, user: _auth.model.AbstractUser = None) -> dict:
         """Get permissions definition for user.
