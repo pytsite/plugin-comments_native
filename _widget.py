@@ -1,8 +1,7 @@
-"""PytSite Native Comments Widget.
+"""PytSite Native Comments Plugin Widgets
 """
-from pytsite import widget as _pytsite_widget, html as _html, tpl as _tpl, auth as _auth, lang as _lang, \
-    util as _util
-from plugins import comments as _comments
+from pytsite import html as _html, tpl as _tpl, lang as _lang
+from plugins import widget as _pytsite_widget, comments as _comments, auth as _auth
 
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'

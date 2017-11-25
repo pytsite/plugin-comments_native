@@ -8,7 +8,7 @@
 
 <div class="comment-form">
     {% if not auth_current_user().is_anonymous %}
-        {% if auth_current_user().has_permission('pytsite.odm_auth.create.comment') %}
+        {% if auth_current_user().has_permission('odm_auth.create.comment') %}
             <form class="form">
                 <input class="reply-to" type="hidden">
                 <div class="author-picture">

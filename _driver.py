@@ -1,8 +1,7 @@
-"""PytSite Comments Abstract Driver.
+"""PytSite Native Comments Plugin
 """
 from typing import Iterable as _Iterable
-from pytsite import widget as _widget, auth as _auth, odm as _odm, odm_auth as _odm_auth
-from plugins import comments as _comments
+from plugins import widget as _widget, auth as _auth, odm as _odm, comments as _comments, odm_auth as _odm_auth
 from . import _model
 from ._widget import Comments as _CommentsWidget
 

@@ -1,4 +1,4 @@
-define(['jquery', 'pytsite-http-api', 'assetman'], function ($, httpApi, assetman) {
+define(['jquery', 'http-api', 'assetman'], function ($, httpApi, assetman) {
     return function (widget) {
         var em = widget.em;
         var threadUid = em.data('threadId');

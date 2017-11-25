@@ -1,10 +1,10 @@
 {
   "name": "comments_native",
-  "version": "1.0",
+  "version": "2.0",
   "description": {
-    "en": "Native comments",
-    "ru": "Native comments",
-    "uk": "Native comments"
+    "en": "Native Comments",
+    "ru": "Native Comments",
+    "uk": "Native Comments"
   },
   "url": "https://github.com/pytsite/plugin-comments_native",
   "author": {
@@ -15,7 +15,16 @@
   "requires": {
     "packages": [],
     "plugins": [
-      "comments"
+      "assetman",
+      "auth",
+      "auth_storage_odm",
+      "comments",
+      "http_api",
+      "jquery",
+      "odm",
+      "odm_auth",
+      "odm_ui",
+      "widget"
     ]
   }
 }

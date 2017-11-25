@@ -1,7 +1,7 @@
-"""Native Comments Event Handlers.
+"""PytSite Native Comments Plugin Events Handlers
 """
-from pytsite import mail as _mail, tpl as _tpl, lang as _lang, auth as _auth
-from plugins import comments as _comments
+from pytsite import mail as _mail, tpl as _tpl, lang as _lang
+from plugins import auth as _auth, comments as _comments
 
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
@@ -14,9 +14,9 @@ def setup():
     # Allow ordinary users to create, modify and delete comments
     user_role = _auth.get_role('user')
     user_role.permissions = list(user_role.permissions) + [
-        'pytsite.odm_auth.create.comment',
-        'pytsite.odm_auth.modify_own.comment',
-        'pytsite.odm_auth.delete_own.comment',
+        'odm_auth.create.comment',
+        'odm_auth.modify_own.comment',
+        'odm_auth.delete_own.comment',
     ]
 
     _auth.switch_user_to_system()
@@ -34,7 +34,7 @@ def comments_report_comment(uid: str):
     m_subject = _lang.t('comments_native@mail_subject_report_comment')
 
     for user in _auth.get_users({'status': 'active'}):
-        if not user.has_permission('pytsite.odm_auth.delete.comment'):
+        if not user.has_permission('odm_auth.delete.comment'):
             continue
 
         m_body = _tpl.render(tpl_name, {'comment': comment, 'recipient': user})
