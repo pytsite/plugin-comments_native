@@ -6,8 +6,8 @@ __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
 
-def _init():
-    from pytsite import tpl, events, lang, setup
+def plugin_load():
+    from pytsite import tpl, events, lang
     from plugins import assetman, comments, odm
     from . import _model, _driver, _eh
 
@@ -16,8 +16,8 @@ def _init():
     tpl.register_package(__name__)
 
     assetman.register_package(__name__)
-    assetman.t_less(__name__ + '@**')
-    assetman.t_js(__name__ + '@**')
+    assetman.t_less(__name__)
+    assetman.t_js(__name__)
     assetman.js_module('comments-native-widget', __name__ + '@js/comments-native-widget')
 
     # Register ODM model
@@ -26,8 +26,4 @@ def _init():
     # Register comments driver
     comments.register_driver(_driver.Native())
 
-    setup.on_setup(_eh.setup)
-    events.listen('comments.report_comment', _eh.comments_report_comment)
-
-
-_init()
+    events.listen('comments@report_comment', _eh.comments_report_comment)

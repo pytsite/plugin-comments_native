@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.1 (2017-12-13)
+
+Support for PytSite-7.0.
+
+
 ### 2.0 (2017-11-25)
 
 Support for PytSite-6.0.
