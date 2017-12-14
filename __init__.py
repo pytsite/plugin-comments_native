@@ -23,9 +23,8 @@ def plugin_install():
 
 
 def plugin_load():
-    from pytsite import tpl, events, lang
-    from plugins import assetman, comments, odm
-    from . import _model, _driver, _eh
+    from pytsite import tpl, lang
+    from plugins import assetman
 
     # Resources
     lang.register_package(__name__)
@@ -35,6 +34,12 @@ def plugin_load():
     assetman.t_less(__name__)
     assetman.t_js(__name__)
     assetman.js_module('comments-native-widget', __name__ + '@js/comments-native-widget')
+
+
+def plugin_load_uwsgi():
+    from pytsite import events
+    from plugins import comments, odm
+    from . import _model, _driver, _eh
 
     # Register ODM model
     odm.register_model('comment', _model.Comment)

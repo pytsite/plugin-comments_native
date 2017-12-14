@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.1.2 (2017-12-14)
+
+Init fixed.
+
+
 ### 2.1.1 (2017-12-13)
 
 Install hook fixed.
