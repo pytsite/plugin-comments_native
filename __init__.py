@@ -6,22 +6,6 @@ __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
 
-def plugin_install():
-    from plugins import auth
-
-    # Allow ordinary users to create, modify and delete comments
-    user_role = auth.get_role('user')
-    user_role.permissions = list(user_role.permissions) + [
-        'odm_auth.create.comment',
-        'odm_auth.modify_own.comment',
-        'odm_auth.delete_own.comment',
-    ]
-
-    auth.switch_user_to_system()
-    user_role.save()
-    auth.restore_user()
-
-
 def plugin_load():
     from pytsite import tpl, lang
     from plugins import assetman
@@ -48,3 +32,24 @@ def plugin_load_uwsgi():
     comments.register_driver(_driver.Native())
 
     events.listen('comments@report_comment', _eh.comments_report_comment)
+
+
+def plugin_install():
+    from plugins import auth, assetman
+
+    plugin_load()
+
+    # Allow ordinary users to create, modify and delete comments
+    user_role = auth.get_role('user')
+    user_role.permissions = list(user_role.permissions) + [
+        'odm_auth.create.comment',
+        'odm_auth.modify_own.comment',
+        'odm_auth.delete_own.comment',
+    ]
+
+    auth.switch_user_to_system()
+    user_role.save()
+    auth.restore_user()
+
+    assetman.build(__name__)
+    assetman.build_translations()
