@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.1.5 (2018-01-03)
+
+Fixed resources registration.
+
+
 ### 2.1.4 (2017-12-21)
 
 Init code refactored.
