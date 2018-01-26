@@ -4,9 +4,14 @@
 ## Changelog
 
 
+### 2.1.6 (2018-01-26)
+
+Permission's names fixed.
+
+
 ### 2.1.5 (2018-01-03)
 
-Fixed resources registration.
+Resources registration fixed.
 
 
 ### 2.1.4 (2017-12-21)

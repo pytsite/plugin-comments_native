@@ -1,14 +1,14 @@
 """PytSite Native Comments Plugin Models
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from typing import Tuple as _Tuple
 from datetime import datetime as _datetime
 from pytsite import router as _router
 from plugins import odm as _odm, auth as _auth, comments as _comments, auth_storage_odm as _auth_storage_odm, \
     odm_ui as _odm_ui
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 
 class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):

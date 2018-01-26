@@ -1,13 +1,13 @@
 """PytSite Native Comments Plugin
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from typing import Iterable as _Iterable
 from plugins import widget as _widget, auth as _auth, odm as _odm, comments as _comments, odm_auth as _odm_auth
 from . import _model
 from ._widget import Comments as _CommentsWidget
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 
 class Native(_comments.driver.Abstract):
