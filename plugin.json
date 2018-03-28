@@ -1,6 +1,6 @@
 {
   "name": "comments_native",
-  "version": "2.1.6",
+  "version": "2.2",
   "description": {
     "en": "Native Comments",
     "ru": "Native Comments",
@@ -13,11 +13,11 @@
     "url": "https://shepetko.com"
   },
   "requires": {
-    "packages": [],
     "plugins": [
       "assetman",
       "auth",
       "auth_storage_odm",
+      "auth_ui>=2.4",
       "comments",
       "http_api",
       "jquery",

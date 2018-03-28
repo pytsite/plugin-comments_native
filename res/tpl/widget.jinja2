@@ -7,8 +7,8 @@
 </div>
 
 <div class="comment-form">
-    {% if not auth_current_user().is_anonymous %}
-        {% if auth_current_user().has_permission('odm_auth@create.comment') %}
+    {% if not plugins.auth.get_current_user().is_anonymous %}
+        {% if plugins.auth.get_current_user().has_permission('odm_auth@create.comment') %}
             <form class="form">
                 <input class="reply-to" type="hidden">
                 <div class="author-picture">
@@ -32,6 +32,6 @@
             {{ t('comments_native@no_permissions_to_create_comments') }}
         {% endif %}
     {% else %}
-        {{ t('comments_native@sign_in_to_post_comments', {'url': auth_sign_in_url(add_fragment=widget.uid~'-list')}) }}
+        {{ t('comments_native@sign_in_to_post_comments', {'url': plugins.auth_ui.sign_in_url(add_fragment=widget.uid~'-list')}) }}
     {% endif %}
 </div>

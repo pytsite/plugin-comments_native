@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.2 (2018-03-28)
+
+Support of `auth_ui-2.4`.
+
+
 ### 2.1.6 (2018-01-26)
 
 Permission's names fixed.
