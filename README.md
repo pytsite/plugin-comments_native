@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.3 (2018-04-06)
+
+Support of `auth-2.0`.
+
+
 ### 2.2 (2018-03-28)
 
 Support of `auth_ui-2.4`.
