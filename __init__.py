@@ -29,9 +29,7 @@ def plugin_install():
         'odm_auth@modify_own.comment',
         'odm_auth@delete_own.comment',
     ]
-    auth.switch_user_to_system()
     user_role.save()
-    auth.restore_user()
 
     assetman.build(__name__)
     assetman.build_translations()

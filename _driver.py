@@ -42,9 +42,11 @@ class Native(_comments.driver.Abstract):
             if parent.depth == _comments.get_comment_max_depth():
                 raise RuntimeError('Comment depth is too big')
 
-            _auth.switch_user_to_system()
-            parent.append_child(comment).save()
-            _auth.restore_user()
+            try:
+                _auth.switch_user_to_system()
+                parent.append_child(comment).save()
+            finally:
+                _auth.restore_user()
 
         return comment
 
