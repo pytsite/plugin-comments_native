@@ -22,7 +22,7 @@ class Comments(_pytsite_widget.Abstract):
             raise RuntimeError("Widget '{}': thread_id is not specified.".format(self.name))
 
         self._css = 'comments-native'
-        self._js_module = 'comments-native-widget'
+        self._js_modules.append('comments-native-widget')
         self._data['comments_load_ep'] = 'comments'
         self._data['comment_submit_ep'] = 'comments/comment'
         self._data['comment_report_ep'] = 'comments/report'
