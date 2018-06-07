@@ -1,6 +1,6 @@
 {
   "name": "comments_native",
-  "version": "2.4",
+  "version": "2.5",
   "description": {
     "en": "Native Comments",
     "ru": "Native Comments",
@@ -21,7 +21,7 @@
       "comments",
       "http_api",
       "jquery",
-      "odm",
+      "odm>=3.3",
       "odm_auth",
       "odm_ui",
       "query>=1.0",

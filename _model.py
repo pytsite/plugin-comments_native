@@ -20,7 +20,7 @@ class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
         max_body_len = _comments.get_comment_body_max_length()
 
         self.define_field(_odm.field.String('thread_uid', required=True))
-        self.define_field(_odm.field.Enum('status', required=True, default='published', valid_values=valid_statuses))
+        self.define_field(_odm.field.Enum('status', required=True, default='published', values=valid_statuses))
         self.define_field(_odm.field.String('body', required=True, strip_html=True, min_length=min_body_len,
                                             max_length=max_body_len))
         self.define_field(_odm.field.DateTime('publish_time', required=True, default=_datetime.now()))
