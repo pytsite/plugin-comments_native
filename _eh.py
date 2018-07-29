@@ -22,4 +22,4 @@ def comments_report_comment(uid: str):
             continue
 
         m_body = _tpl.render(tpl_name, {'comment': comment, 'recipient': user})
-        _mail.Message(user.email, m_subject, m_body).send()
+        _mail.Message(user.login, m_subject, m_body).send()

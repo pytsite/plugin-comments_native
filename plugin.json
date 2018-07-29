@@ -1,6 +1,6 @@
 {
   "name": "comments_native",
-  "version": "2.5.1",
+  "version": "2.6",
   "description": {
     "en": "Native Comments",
     "ru": "Native Comments",
@@ -15,7 +15,7 @@
   "requires": {
     "plugins": [
       "assetman",
-      "auth>=2.0",
+      "auth>=3.5",
       "auth_storage_odm",
       "auth_ui>=2.4",
       "comments",

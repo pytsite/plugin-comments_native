@@ -3,6 +3,12 @@
 
 ## Changelog
 
+
+### 2.6 (2018-07-29)
+
+Support of `auth-3.5`.
+
+
 ### 2.5.1 (2018-07-21)
 
 Support of Twitter Bootstrap 4 fixed.
