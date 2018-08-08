@@ -1,6 +1,6 @@
 """PytSite Native Comments Plugin Models
 """
-__author__ = 'Alexander Shepetko'
+__author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
@@ -36,10 +36,6 @@ class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
     @classmethod
     def odm_auth_permissions_group(cls) -> str:
         return 'comments'
-
-    @classmethod
-    def odm_auth_permissions(cls) -> _Tuple[str, ...]:
-        return 'create', 'modify', 'delete', 'modify_own', 'delete_own'
 
     @property
     def uid(self) -> str:
