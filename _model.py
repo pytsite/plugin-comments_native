@@ -1,29 +1,33 @@
-"""PytSite Native Comments Plugin Models
+"""PytSite ODM Comments Plugin Models
 """
 __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from typing import Tuple as _Tuple
+from typing import Iterable as _Iterable
 from datetime import datetime as _datetime
 from pytsite import router as _router
 from plugins import odm as _odm, auth as _auth, comments as _comments, auth_storage_odm as _auth_storage_odm, \
     odm_ui as _odm_ui
 
 
-class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
+class ODMComment(_odm_ui.UIEntity):
+    @classmethod
+    def odm_auth_permissions_group(cls) -> str:
+        return 'comments'
+
     def _setup_fields(self):
-        """Setup fields.
+        """Setup fields
         """
         valid_statuses = tuple(_comments.get_comment_statuses().keys())
-        min_body_len = _comments.get_comment_body_min_length()
-        max_body_len = _comments.get_comment_body_max_length()
+        min_body_len = _comments.get_comment_min_body_length()
+        max_body_len = _comments.get_comment_max_body_length()
 
-        self.define_field(_odm.field.String('thread_uid', required=True))
-        self.define_field(_odm.field.Enum('status', required=True, default='published', values=valid_statuses))
-        self.define_field(_odm.field.String('body', required=True, min_length=min_body_len, max_length=max_body_len))
-        self.define_field(_odm.field.DateTime('publish_time', required=True, default=_datetime.now()))
-        self.define_field(_auth_storage_odm.field.User('author', required=True))
+        self.define_field(_odm.field.String('thread_uid', is_required=True))
+        self.define_field(_odm.field.Enum('status', is_required=True, default='published', values=valid_statuses))
+        self.define_field(_odm.field.String('body', is_required=True, min_length=min_body_len, max_length=max_body_len))
+        self.define_field(_odm.field.DateTime('publish_time', is_required=True, default=_datetime.now()))
+        self.define_field(_auth_storage_odm.field.User('author', is_required=True))
 
     def _setup_indexes(self):
         """Setup indexes.
@@ -32,53 +36,64 @@ class Comment(_comments.model.AbstractComment, _odm_ui.model.UIEntity):
         self.define_index([('publish_time', _odm.I_ASC)])
         self.define_index([('author', _odm.I_ASC)])
 
-    @classmethod
-    def odm_auth_permissions_group(cls) -> str:
-        return 'comments'
 
+class Comment(_comments.AbstractComment):
     @property
-    def uid(self) -> str:
-        return str(self.id)
-
-    @property
-    def parent_uid(self) -> str:
-        return str(self.parent.id) if self.parent else None
-
-    @property
-    def thread_uid(self) -> str:
-        return self.f_get('thread_uid')
-
-    @property
-    def depth(self) -> int:
-        return _odm_ui.model.UIEntity.depth.fget(self)
-
-    @property
-    def created(self) -> _datetime:
-        return _odm_ui.model.UIEntity.created.fget(self)
-
-    @property
-    def url(self) -> str:
-        return _router.url(self.f_get('thread_uid'), fragment='comment-' + self.uid)
+    def author(self) -> _auth.AbstractUser:
+        return self._entity.f_get('author')
 
     @property
     def body(self) -> str:
-        return self.f_get('body')
+        return self._entity.f_get('body')
 
     @property
-    def publish_time(self) -> _datetime:
-        return self.f_get('publish_time')
+    def children(self) -> _Iterable[_comments.AbstractComment]:
+        for c in self._entity.children:
+            yield Comment(c)
 
     @property
-    def status(self) -> str:
-        return self.f_get('status')
+    def created(self) -> _datetime:
+        return self._entity.created
 
     @property
-    def author(self) -> _auth.model.AbstractUser:
-        return self.f_get('author')
+    def depth(self) -> int:
+        return self._entity.depth
+
+    @property
+    def parent_uid(self) -> str:
+        return str(self._entity.parent.id) if self._entity.parent else None
 
     @property
     def permissions(self) -> dict:
         return {
-            'modify': self.odm_auth_check_permission('modify'),
-            'delete': self.odm_auth_check_permission('delete'),
+            'modify': self._entity.odm_auth_check_entity_permissions('modify'),
+            'delete': self._entity.odm_auth_check_entity_permissions('delete'),
         }
+
+    @property
+    def publish_time(self) -> _datetime:
+        return self._entity.f_get('publish_time')
+
+    @property
+    def status(self) -> str:
+        return self._entity.f_get('status')
+
+    @property
+    def thread_uid(self) -> str:
+        return self._entity.f_get('thread_uid')
+
+    @property
+    def uid(self) -> str:
+        return str(self._entity.id)
+
+    @property
+    def url(self) -> str:
+        return _router.url(self._entity.f_get('thread_uid'), fragment='comment-' + self.uid)
+
+    def __init__(self, odm_entity: ODMComment):
+        """Init
+        """
+        self._entity = odm_entity
+
+    def delete(self):
+        self._entity.f_set('status', _comments.COMMENT_STATUS_DELETED)

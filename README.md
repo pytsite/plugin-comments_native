@@ -1,7 +1,14 @@
-# PytSite Native Comments Plugin
+# PytSite ODM Comments Plugin
 
 
 ## Changelog
+
+
+### 3.0 (2019-05-08)
+
+- Plugin name changed.
+- Backend partly reworked.
+- Frontend fully reworked.
 
 
 ### 2.8 (2018-09-07)

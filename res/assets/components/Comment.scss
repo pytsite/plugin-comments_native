@@ -1,0 +1,61 @@
+@keyframes change-bg-color {
+  0% {
+    background-color: #ddd;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
+.pytsite-widget.pytsite-comments {
+  .comment {
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+
+    &.new {
+      animation-name: change-bg-color;
+      animation-duration: 2s;
+    }
+
+    .content {
+      display: flex;
+      margin-bottom: 20px;
+
+      .l {
+        margin-right: 10px;
+      }
+
+      .r {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .header, .footer {
+          display: flex;
+
+          > * {
+            margin-right: 1em;
+          }
+        }
+
+        .header {
+          font-size: .8em;
+        }
+      }
+    }
+
+    .children, .input-box {
+      padding-left: 60px;
+    }
+
+    .input-box {
+      margin-bottom: 20px;
+
+      textarea {
+        padding: 4px 8px;
+        width: 100%;
+      }
+    }
+  }
+}

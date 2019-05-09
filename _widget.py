@@ -1,46 +1,38 @@
-"""PytSite Native Comments Plugin Widgets
+"""PytSite ODM Comments Plugin Widgets
 """
 __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from pytsite import html as _html, tpl as _tpl, lang as _lang
-from plugins import widget as _pytsite_widget, comments as _comments, auth as _auth
+from urllib import parse as _url_parse
+from pytsite import lang as _lang, router as _router
+from plugins import widget2 as _widget2, comments as _comments, http_api as _http_api, auth as _auth, \
+    auth_ui as _auth_ui
 
 
-class Comments(_pytsite_widget.Abstract):
-    def __init__(self, uid: str, **kwargs):
+class Comments(_widget2.Base):
+    def __init__(self, uid: str = None, **kwargs):
         """Init.
         """
-        if 'title' not in kwargs:
-            kwargs['title'] = _lang.t('comments_native@comments')
+        kwargs.setdefault('title', _lang.t('comments_odm@comments'))
 
         super().__init__(uid, **kwargs)
 
-        self._thread_id = kwargs.get('thread_id')
-        if not self._thread_id:
-            raise RuntimeError("Widget '{}': thread_id is not specified.".format(self.name))
+        thread_uid = _url_parse.quote_plus(kwargs.get('thread_uid', _router.current_path()))
 
-        self._css = 'comments-native'
-        self._js_modules.append('comments-native-widget')
-        self._data['comments_load_ep'] = 'comments'
-        self._data['comment_submit_ep'] = 'comments/comment'
-        self._data['comment_report_ep'] = 'comments/report'
-        self._data['comment_delete_ep'] = 'comments/comment'
-        self._data['thread_id'] = self._thread_id
-        self._data['max_depth'] = _comments.get_comment_max_depth()
-        self._data['create_permission'] = _comments.get_permissions(driver_name='pytsite')['create']
-
-    @property
-    def comment_submit_ep(self) -> str:
-        return 'comments@comment'
-
-    @property
-    def comment_body_max_length(self) -> int:
-        return _comments.get_comment_body_max_length()
-
-    def _get_element(self, **kwargs) -> _html.Element:
-        return _html.TagLessElement(_tpl.render('comments_native@widget', {
-            'current_user': _auth.get_current_user(),
-            'widget': self,
-        }))
+        self._props.update({
+            'authenticationURL': _auth_ui.sign_in_url(),
+            'isUserAuthenticated': not _auth.get_current_user().is_anonymous,
+            'settings': {
+                'maxBodyLength': _comments.get_comment_max_body_length(),
+                'minBodyLength': _comments.get_comment_min_body_length(),
+                'maxDepth': _comments.get_comment_max_depth(),
+                'statuses': _comments.get_comment_statuses(),
+                'permissions': _comments.get_permissions(driver_name='odm')
+            },
+            'urls': {
+                'get': _http_api.url('comments@get_comments', {'thread_uid': thread_uid}),
+                'post': _http_api.url('comments@post_comment', {'thread_uid': thread_uid}),
+            },
+            'threadUID': thread_uid,
+        })

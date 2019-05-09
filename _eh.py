@@ -1,4 +1,4 @@
-"""PytSite Native Comments Plugin Events Handlers
+"""PytSite ODM Comments Plugin Events Handlers
 """
 __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
@@ -14,8 +14,8 @@ def comments_report_comment(uid: str):
     except _comments.error.CommentNotExist:
         return
 
-    tpl_name = 'comments_native@mail/{}/report'.format(_lang.get_current())
-    m_subject = _lang.t('comments_native@mail_subject_report_comment')
+    tpl_name = 'comments_odm@mail/{}/report'.format(_lang.get_current())
+    m_subject = _lang.t('comments_odm@mail_subject_report_comment')
 
     for user in _auth.find_users(_query.Query(_query.Eq('status', 'active'))):
         if not user.has_permission('odm_auth@delete.comment'):
