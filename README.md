@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 3.0.1 (2019-05-08)
+
+Various UI related bugfixes.
+
+
 ### 3.0 (2019-05-08)
 
 - Plugin name changed.

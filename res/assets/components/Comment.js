@@ -118,6 +118,8 @@ export default class Comment extends React.Component {
      */
     renderContentBlock() {
         let body;
+        let className = `content ${this.props.data.status}`;
+
         if (this.props.data.status === 'published')
             body = this.props.data.body;
         else if (this.props.data.status === 'deleted')
@@ -125,17 +127,13 @@ export default class Comment extends React.Component {
         else if (this.props.data.status === 'spam')
             body = lang.t('comments_odm@spam_comment');
 
-        return <div className="content">
+        return <div className={className}>
             <div className="l">
-                <a href={'#'}>
-                    <img src={this.props.data.author.picture_url} alt={this.props.data.author.name}/>
-                </a>
+                <img src={this.props.data.author.picture_url} alt={this.props.data.author.name}/>
             </div>
             <div className="r">
                 <div className="header">
-                    <div className="author">
-                        <a href="#">{this.props.data.author.name}</a>
-                    </div>
+                    <div className="author">{this.props.data.author.name}</div>
 
                     <div className="publish-time" title={this.props.data.publish_time.pretty_date_time}>
                         {this.props.data.publish_time.ago}

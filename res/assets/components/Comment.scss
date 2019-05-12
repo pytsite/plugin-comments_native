@@ -18,9 +18,19 @@
       animation-duration: 2s;
     }
 
+    &#pytsite-comment-null {
+      > .children, > .input-box {
+        padding-left: 0;
+      }
+    }
+
     .content {
       display: flex;
       margin-bottom: 20px;
+
+      &.deleted, &.spam {
+        opacity: .5;
+      }
 
       .l {
         margin-right: 10px;
@@ -57,5 +67,9 @@
         width: 100%;
       }
     }
+  }
+
+  > .comment {
+    border-top: 0;
   }
 }

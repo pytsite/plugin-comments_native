@@ -53,7 +53,7 @@ class ODM(_comments.driver.Abstract):
     def get_widget(self, widget_uid: str, thread_uid: str) -> _widget2.Base:
         """Get comments widget
         """
-        return _CommentsWidget(widget_uid, thread_id=thread_uid)
+        return _CommentsWidget(widget_uid, thread_uid=thread_uid)
 
     def get_comments(self, thread_uid: str, limit: int = 0,
                      skip: int = 0) -> _Iterable[_comments.model.AbstractComment]:

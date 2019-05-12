@@ -4,8 +4,7 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from urllib import parse as _url_parse
-from pytsite import lang as _lang, router as _router
+from pytsite import lang as _lang
 from plugins import widget2 as _widget2, comments as _comments, http_api as _http_api, auth as _auth, \
     auth_ui as _auth_ui
 
@@ -18,7 +17,7 @@ class Comments(_widget2.Base):
 
         super().__init__(uid, **kwargs)
 
-        thread_uid = _url_parse.quote_plus(kwargs.get('thread_uid', _router.current_path()))
+        thread_uid = kwargs.get('thread_uid')
 
         self._props.update({
             'authenticationURL': _auth_ui.sign_in_url(),
@@ -34,5 +33,6 @@ class Comments(_widget2.Base):
                 'get': _http_api.url('comments@get_comments', {'thread_uid': thread_uid}),
                 'post': _http_api.url('comments@post_comment', {'thread_uid': thread_uid}),
             },
-            'threadUID': thread_uid,
+            'threadUID': kwargs.get('thread_uid'),
+            'title': kwargs.get('title'),
         })

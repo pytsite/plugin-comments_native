@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {lang} from '@pytsite/assetman';
 import httpAPI from '@pytsite/http-api';
 import Comment from './Comment';
 
@@ -19,6 +20,7 @@ export default class Comments extends React.Component {
             statuses: PropTypes.object.isRequired,
         }),
         threadUID: PropTypes.string.isRequired,
+        title: PropTypes.string,
         urls: PropTypes.shape({
             post: PropTypes.string.isRequired,
             get: PropTypes.string.isRequired,
@@ -27,6 +29,7 @@ export default class Comments extends React.Component {
 
     static defaultProps = {
         className: 'pytsite-widget pytsite-comments',
+        title: lang.t('comments_odm@comments'),
     };
 
     constructor(props) {
@@ -89,6 +92,9 @@ export default class Comments extends React.Component {
     render() {
         return (
             <div className={this.props.className}>
+                {this.props.title && (
+                    <h5 className={'widget-title'}>{this.props.title}</h5>
+                )}
                 <Comment authenticationURL={this.props.authenticationURL}
                          data={{uid: null, children: this.state.comments}}
                          isUserAuthenticated={this.props.isUserAuthenticated}

@@ -33,6 +33,7 @@ export default class CommentInputBox extends React.Component {
 
         this.state = {
             body: '',
+            isPostingInProgress: false,
         };
 
         this.postComment = this.postComment.bind(this);
@@ -51,10 +52,13 @@ export default class CommentInputBox extends React.Component {
             parent_uid: this.props.parentUID,
         };
 
+        this.setState({isPostingInProgress: true});
+
         httpAPI.post(this.props.postURL, args).then(r => {
             this.props.onPost && this.props.onPost(r);
             this.setState({
-                body: ''
+                body: '',
+                isPostingInProgress: false,
             });
         }).catch(e => {
             const error = e.responseJSON.error;
@@ -76,6 +80,7 @@ export default class CommentInputBox extends React.Component {
                 content = (
                     <React.Fragment>
                     <textarea autoFocus={this.props.autoFocus}
+                              disabled={this.state.isPostingInProgress}
                               maxLength={this.props.maxBodyLength}
                               minLength={this.props.minBodyLength}
                               onChange={this.onTextAreaChange}
@@ -84,15 +89,14 @@ export default class CommentInputBox extends React.Component {
                               value={this.state.body}
                     ></textarea>
 
-                        <button disabled={this.state.body.length < this.props.minBodyLength}
+                        <button disabled={(this.state.body.length < this.props.minBodyLength) || this.state.isPostingInProgress}
                                 onClick={this.postComment}
                         >
                             {lang.t('comments_odm@post_comment')}
                         </button>
                     </React.Fragment>
                 );
-            }
-            else {
+            } else {
                 content = <p>{lang.t('comments_odm@no_permissions_to_create_comments')}</p>
             }
         } else {
