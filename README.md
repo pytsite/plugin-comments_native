@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 3.0.3 (2019-05-12)
+
+Unwanted autofocus of input boxes removed.
+
+
 ### 3.0.2 (2019-05-12)
 
 UI scrolling fixed. 

@@ -184,7 +184,7 @@ export default class Comment extends React.Component {
      */
     renderReplyBoxBlock() {
         return <CommentInputBox authenticationURL={this.props.authenticationURL}
-                                autoFocus={true}
+                                autoFocus={this.props.data.uid}
                                 isUserAllowedToComment={this.props.settings.permissions.create}
                                 isUserAuthenticated={this.props.isUserAuthenticated}
                                 maxBodyLength={this.props.settings.maxBodyLength}
