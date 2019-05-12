@@ -61,6 +61,16 @@ export default class Comments extends React.Component {
         return foundComment;
     }
 
+    isElementInViewport(em) {
+        const bounding = em.getBoundingClientRect();
+        return (
+            bounding.top >= 0 &&
+            bounding.left >= 0 &&
+            bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    };
+
     fetchComments() {
         httpAPI.get(this.props.urls.get).then(r => {
             this.setState({comments: r['items']});
@@ -82,7 +92,15 @@ export default class Comments extends React.Component {
         }
 
         this.setState({comments: comments});
-        window.location.hash = `pytsite-comment-${commentData.uid}`;
+
+        const emId = `pytsite-comment-${commentData.uid}`;
+        const em = document.getElementById(emId);
+        if (!this.isElementInViewport(em)) {
+            if (em.scrollIntoView !== undefined)
+                em.scrollIntoView({behavior: 'smooth'});
+            else
+                window.location.hash = emId;
+        }
     }
 
     componentDidMount() {

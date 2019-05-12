@@ -4,7 +4,12 @@
 ## Changelog
 
 
-### 3.0.1 (2019-05-08)
+### 3.0.2 (2019-05-12)
+
+UI scrolling fixed. 
+
+
+### 3.0.1 (2019-05-12)
 
 Various UI related bugfixes.
 
