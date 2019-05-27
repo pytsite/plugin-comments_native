@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 3.1 (2019-05-27)
+
+Support of `odm_auth-3.2`.
+
+
 ### 3.0.3 (2019-05-12)
 
 Unwanted autofocus of input boxes removed.

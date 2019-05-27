@@ -9,6 +9,7 @@ from datetime import datetime as _datetime
 from pytsite import router as _router
 from plugins import odm as _odm, auth as _auth, comments as _comments, auth_storage_odm as _auth_storage_odm, \
     odm_ui as _odm_ui
+from plugins.odm_auth import PERM_MODIFY, PERM_DELETE
 
 
 class ODMComment(_odm_ui.UIEntity):
@@ -66,8 +67,8 @@ class Comment(_comments.AbstractComment):
     @property
     def permissions(self) -> dict:
         return {
-            'modify': self._entity.odm_auth_check_entity_permissions('modify'),
-            'delete': self._entity.odm_auth_check_entity_permissions('delete'),
+            PERM_MODIFY: self._entity.odm_auth_check_entity_permissions(PERM_MODIFY),
+            PERM_DELETE: self._entity.odm_auth_check_entity_permissions(PERM_DELETE),
         }
 
     @property

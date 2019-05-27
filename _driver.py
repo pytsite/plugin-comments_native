@@ -6,6 +6,7 @@ __license__ = 'MIT'
 
 from typing import Iterable as _Iterable
 from plugins import widget2 as _widget2, auth as _auth, odm as _odm, comments as _comments, odm_auth as _odm_auth
+from plugins.odm_auth import PERM_CREATE
 from . import _model
 from ._widget import Comments as _CommentsWidget
 
@@ -101,5 +102,5 @@ class ODM(_comments.driver.Abstract):
         """Get permissions for user
         """
         return {
-            'create': _odm_auth.check_model_permissions('comment', 'create', user)
+            PERM_CREATE: _odm_auth.check_model_permissions('comment', PERM_CREATE, user)
         }
