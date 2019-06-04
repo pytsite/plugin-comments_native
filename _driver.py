@@ -4,14 +4,14 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from typing import Iterable as _Iterable
-from plugins import widget2 as _widget2, auth as _auth, odm as _odm, comments as _comments, odm_auth as _odm_auth
+from typing import Iterable
+from plugins import widget2, auth, odm, comments, odm_auth
 from plugins.odm_auth import PERM_CREATE
 from . import _model
-from ._widget import Comments as _CommentsWidget
+from ._widget import Comments as CommentsWidget
 
 
-class ODM(_comments.driver.Abstract):
+class ODM(comments.driver.Abstract):
     """Abstract Comments Driver.
     """
 
@@ -25,13 +25,13 @@ class ODM(_comments.driver.Abstract):
         """
         return 'ODM'
 
-    def create_comment(self, thread_uid: str, body: str, author: _auth.model.AbstractUser, status: str = 'published',
-                       parent_uid: str = None) -> _comments.model.AbstractComment:
+    def create_comment(self, thread_uid: str, body: str, author: auth.model.AbstractUser, status: str = 'published',
+                       parent_uid: str = None) -> comments.model.AbstractComment:
         """Create a new comment
         """
         body = body.strip()
 
-        comment = _odm.dispense('comment')  # type: _model.ODMComment
+        comment = odm.dispense('comment')  # type: _model.ODMComment
         comment.f_set('thread_uid', thread_uid)
         comment.f_set('body', body)
         comment.f_set('author', author.uid)
@@ -39,68 +39,68 @@ class ODM(_comments.driver.Abstract):
         comment.save()
 
         if parent_uid:
-            parent = _odm.get_by_ref('comment:' + parent_uid)
-            if parent.depth == _comments.get_comment_max_depth():
+            parent = odm.get_by_ref('comment:' + parent_uid)
+            if parent.depth == comments.get_comment_max_depth():
                 raise RuntimeError('Comment depth is too big')
 
             try:
-                _auth.switch_user_to_system()
+                auth.switch_user_to_system()
                 parent.append_child(comment).save()
             finally:
-                _auth.restore_user()
+                auth.restore_user()
 
         return _model.Comment(comment)
 
-    def get_widget(self, widget_uid: str, thread_uid: str) -> _widget2.Base:
+    def get_widget(self, widget_uid: str, thread_uid: str) -> widget2.Base:
         """Get comments widget
         """
-        return _CommentsWidget(widget_uid, thread_uid=thread_uid)
+        return CommentsWidget(widget_uid, thread_uid=thread_uid)
 
     def get_comments(self, thread_uid: str, limit: int = 0,
-                     skip: int = 0) -> _Iterable[_comments.model.AbstractComment]:
+                     skip: int = 0) -> Iterable[comments.model.AbstractComment]:
         """Get comments tree
         """
-        f = _odm.find('comment') \
+        f = odm.find('comment') \
             .eq('thread_uid', thread_uid) \
             .eq('_parent', None) \
-            .sort([('publish_time', _odm.I_ASC)]) \
+            .sort([('publish_time', odm.I_ASC)]) \
             .skip(skip)
 
         for e in f.get(limit):
             yield _model.Comment(e)
 
-    def get_comment(self, uid: str) -> _comments.model.AbstractComment:
+    def get_comment(self, uid: str) -> comments.model.AbstractComment:
         """Get single comment
         """
-        comment = _odm.find('comment').eq('_id', uid).first()
+        comment = odm.find('comment').eq('_id', uid).first()
 
         if not comment:
-            raise _comments.error.CommentNotExist("Comment '{}' not exist.".format(uid))
+            raise comments.error.CommentNotExist("Comment '{}' not exist.".format(uid))
 
         return _model.Comment(comment)
 
     def get_comments_count(self, thread_uid: str) -> int:
         """Get comments count for particular thread
         """
-        return _odm.find('comment').eq('thread_uid', thread_uid).eq('status', 'published').count()
+        return odm.find('comment').eq('thread_uid', thread_uid).eq('status', 'published').count()
 
     def delete_comment(self, uid: str):
         """Mark comment as deleted
         """
-        comment = _odm.find('comment').eq('_id', uid).first()
+        comment = odm.find('comment').eq('_id', uid).first()
         if not comment:
-            raise _comments.error.CommentNotExist("Comment '{}' does not exist.".format(uid))
+            raise comments.error.CommentNotExist("Comment '{}' does not exist.".format(uid))
 
         comment.f_set('status', 'deleted').save()
 
     def delete_thread(self, thread_uid: str):
         """Remove comments for particular thread
         """
-        return _odm.find('comment').eq('thread_uid', thread_uid).delete(True)
+        return odm.find('comment').eq('thread_uid', thread_uid).delete(True)
 
-    def get_permissions(self, user: _auth.model.AbstractUser = None) -> dict:
+    def get_permissions(self, user: auth.model.AbstractUser = None) -> dict:
         """Get permissions for user
         """
         return {
-            PERM_CREATE: _odm_auth.check_model_permissions('comment', PERM_CREATE, user)
+            PERM_CREATE: odm_auth.check_model_permissions('comment', PERM_CREATE, user)
         }

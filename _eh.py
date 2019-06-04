@@ -4,22 +4,22 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from pytsite import mail as _mail, tpl as _tpl, lang as _lang
-from plugins import auth as _auth, comments as _comments, query as _query
+from pytsite import mail, tpl, lang
+from plugins import auth, comments, query
 
 
 def comments_report_comment(uid: str):
     try:
-        comment = _comments.get_comment(uid, 'pytsite')
-    except _comments.error.CommentNotExist:
+        comment = comments.get_comment(uid, 'pytsite')
+    except comments.error.CommentNotExist:
         return
 
-    tpl_name = 'comments_odm@mail/{}/report'.format(_lang.get_current())
-    m_subject = _lang.t('comments_odm@mail_subject_report_comment')
+    tpl_name = 'comments_odm@mail/{}/report'.format(lang.get_current())
+    m_subject = lang.t('comments_odm@mail_subject_report_comment')
 
-    for user in _auth.find_users(_query.Query(_query.Eq('status', 'active'))):
+    for user in auth.find_users(query.Query(query.Eq('status', 'active'))):
         if not user.has_permission('odm_auth@delete.comment'):
             continue
 
-        m_body = _tpl.render(tpl_name, {'comment': comment, 'recipient': user})
-        _mail.Message(user.login, m_subject, m_body).send()
+        m_body = tpl.render(tpl_name, {'comment': comment, 'recipient': user})
+        mail.Message(user.login, m_subject, m_body).send()
