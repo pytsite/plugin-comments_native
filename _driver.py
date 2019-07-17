@@ -51,7 +51,7 @@ class ODM(comments.driver.Abstract):
 
         return _model.Comment(comment)
 
-    def get_widget(self, widget_uid: str, thread_uid: str) -> widget2.Base:
+    def get_widget(self, widget_uid: str, thread_uid: str) -> widget2.Widget:
         """Get comments widget
         """
         return CommentsWidget(widget_uid, thread_uid=thread_uid)

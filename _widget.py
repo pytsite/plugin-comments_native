@@ -8,7 +8,7 @@ from pytsite import lang
 from plugins import widget2, comments, http_api, auth, auth_ui
 
 
-class Comments(widget2.Base):
+class Comments(widget2.Container):
     def __init__(self, uid: str = None, **kwargs):
         """Init.
         """

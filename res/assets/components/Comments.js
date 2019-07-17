@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {lang} from '@pytsite/assetman';
 import httpAPI from '@pytsite/http-api';
+import Widget from '@pytsite/widget2/components/widget';
 import Comment from './Comment';
 
 
-export default class Comments extends React.Component {
-    static propTypes = {
+export default class Comments extends Widget {
+    static propTypes = Object.assign({}, Widget.propTypes, {
         authenticationURL: PropTypes.string.isRequired,
-        className: PropTypes.string,
         isUserAuthenticated: PropTypes.bool.isRequired,
         settings: PropTypes.shape({
             maxDepth: PropTypes.number.isRequired,
@@ -25,7 +25,7 @@ export default class Comments extends React.Component {
             post: PropTypes.string.isRequired,
             get: PropTypes.string.isRequired,
         })
-    };
+    });
 
     static defaultProps = {
         className: 'pytsite-widget pytsite-comments',
@@ -61,7 +61,7 @@ export default class Comments extends React.Component {
         return foundComment;
     }
 
-    isElementInViewport(em) {
+    static isElementInViewport(em) {
         const bounding = em.getBoundingClientRect();
         return (
             bounding.top >= 0 &&
@@ -95,7 +95,7 @@ export default class Comments extends React.Component {
 
         const emId = `pytsite-comment-${commentData.uid}`;
         const em = document.getElementById(emId);
-        if (!this.isElementInViewport(em)) {
+        if (!Comments.isElementInViewport(em)) {
             if (em.scrollIntoView !== undefined)
                 em.scrollIntoView({behavior: 'smooth'});
             else
