@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 3.3.1 (2019-07-18)
+
+CSS fixed.
+
+
 ### 3.3 (2019-07-17)
 
 Support of `widget2-0.5`.

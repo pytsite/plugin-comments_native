@@ -4,7 +4,6 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-
 from . import _widget as widget
 
 

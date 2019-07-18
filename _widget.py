@@ -16,8 +16,9 @@ class Comments(widget2.Container):
 
         super().__init__(uid, **kwargs)
 
-        thread_uid = kwargs.get('thread_uid')
+        self.css += ' pytsite-comments'
 
+        thread_uid = kwargs.get('thread_uid')
         self._props.update({
             'authenticationURL': auth_ui.sign_in_url(),
             'isUserAuthenticated': not auth.get_current_user().is_anonymous,
